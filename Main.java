@@ -1,189 +1,138 @@
-package Some;
+package Learn;
 
-
+import com.sun.net.httpserver.*;
+import java.io.*;
+import java.net.InetSocketAddress;
 import java.util.*;
-import java.util.Scanner;
-class Todo {
-    int id;
-    String title;
-    String status; // todo, in-progress, done
-
-    Todo(int id, String title, String status) {
-        this.id = id;
-        this.title = title;
-        this.status = status;
-    }
-
-    public String toString() {
-        return id + " | " + title + " | " + status;
-    }
-}
-
-
-class TodoService {
-    List<Todo> todos = new ArrayList<>();
-
-    // CREATE
-    void addTodo(Todo todo) {
-        todos.add(todo);
-        System.out.println("Todo added");
-    }
-
-    // READ
-    void viewTodos() {
-        if (todos.isEmpty()) {
-            System.out.println("No todos found");
-            return;
-        }
-        for (Todo t : todos) {
-            System.out.println(t);
-        }
-    }
-
-    // UPDATE
-    void updateStatus(int id, String newStatus) {
-        for (Todo t : todos) {
-            if (t.id == id) {
-                t.status = newStatus;
-                System.out.println("Status updated");
-                return;
-            }
-        }
-        System.out.println("Todo not found");
-    }
-
-    // DELETE
-    void deleteTodo(int id) {
-        Iterator<Todo> it = todos.iterator();
-        while (it.hasNext()) {
-            if (it.next().id == id) {
-                it.remove();
-                System.out.println("Todo deleted");
-                return;
-            }
-        }
-        System.out.println("Todo not found");
-    }
-
-    // SEARCH by ID
-    void searchById(int id) {
-        for (Todo t : todos) {
-            if (t.id == id) {
-                System.out.println(t);
-                return;
-            }
-        }
-        System.out.println("Todo not found");
-    }
-
-    // SEARCH by Title
-    void searchByTitle(String keyword) {
-        for (Todo t : todos) {
-            if (t.title.toLowerCase().contains(keyword.toLowerCase())) {
-                System.out.println(t);
-            }
-        }
-    }
-
-    // FILTER by Status
-    void filterByStatus(String status) {
-        for (Todo t : todos) {
-            if (t.status.equalsIgnoreCase(status)) {
-                System.out.println(t);
-            }
-        }
-    }
-
-    // SORT by Title
-    void sortByTitle() {
-        todos.sort(Comparator.comparing(t -> t.title));
-    }
-
-    // SORT by ID desc
-    void sortByIdDesc() {
-        todos.sort((a, b) -> b.id - a.id);
-    }
-}
-
-
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        TodoService service = new TodoService();
 
-        while (true) {
-            System.out.println("\n--- TODO APP ---");
-            System.out.println("1. Add Todo");
-            System.out.println("2. View Todos");
-            System.out.println("3. Update Status");
-            System.out.println("4. Delete Todo");
-            System.out.println("5. Search by ID");
-            System.out.println("6. Search by Title");
-            System.out.println("7. Filter by Status");
-            System.out.println("8. Sort by Title");
-            System.out.println("9. Exit");
+    static User[] userArray = new User[5];
 
-            int choice = sc.nextInt();
-            sc.nextLine();
 
-            switch (choice) {
-                case 1:
-                    System.out.print("Id: ");
-                    int id = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("Title: ");
-                    String title = sc.nextLine();
-                    System.out.print("Status(todo/in-progress/done): ");
-                    String status = sc.nextLine();
-                    service.addTodo(new Todo(id, title, status));
-                    break;
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        //server.createContext("/");
+        server.createContext("/login", new LoginHandler());
+        server.createContext("/task/add", new addTaskHandler());
+        server.createContext("/task/list", new ListTaskHandler());
+        server.start();
+        System.out.println("Server is Started on the port http://localhost:8080");
+    }
 
-                case 2:
-                    service.viewTodos();
-                    break;
 
-                case 3:
-                    System.out.print("Todo Id: ");
-                    id = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("New Status: ");
-                    status = sc.nextLine();
-                    service.updateStatus(id, status);
-                    break;
+    //login
+    static class LoginHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String userName = new String(exchange.getRequestBody().readAllBytes());
+            User currentUser = null;
 
-                case 4:
-                    System.out.print("Todo Id: ");
-                    id = sc.nextInt();
-                    service.deleteTodo(id);
-                    break;
-
-                case 5:
-                    System.out.print("Todo Id: ");
-                    id = sc.nextInt();
-                    service.searchById(id);
-                    break;
-
-                case 6:
-                    System.out.print("Keyword: ");
-                    title = sc.nextLine();
-                    service.searchByTitle(title);
-                    break;
-
-                case 7:
-                    System.out.print("Status: ");
-                    status = sc.nextLine();
-                    service.filterByStatus(status);
-                    break;
-
-                case 8:
-                    service.sortByTitle();
-                    System.out.println("Sorted by title");
-                    break;
-
-                case 9:
-                    System.exit(0);
+            for (int i = 0; i < userArray.length; i++) {
+                if (userArray[i] != null) {
+                    if (userArray[i].getUsername().equals(userName)) {
+                        currentUser = userArray[i];
+                        break;
+                    }
+                }
             }
+            if (currentUser == null) {
+                currentUser = new User(userName);
+                for (int i = 0; i < userArray.length; i++) {
+                    if (userArray[i] == null) {
+                        userArray[i] = currentUser;
+                        break;
+                    }
+                }
+            }
+            String response = "Logged in as " + userName;
+            exchange.sendResponseHeaders(200, response.length());
+            exchange.getResponseBody().write(response.getBytes());
+            exchange.close();
         }
     }
+
+    //add task
+    static class addTaskHandler implements HttpHandler {
+
+        public void handle(HttpExchange exchange) throws IOException {
+            String body = new String(exchange.getRequestBody().readAllBytes());
+            String[] data = body.split(",");
+
+            String userName = data[0];
+            String description = data[1];
+            for (User user : userArray) {
+                if (user != null) {
+                    if (user.getUsername().equals(userName)) {
+                        for (int i = 0; i < user.getTaskArray().length; i++) {
+                            if (user.getTaskArray()[i] == null) {
+                                user.getTaskArray()[i] = new Task(description);
+                                break;
+                            }
+                        }
+                    }
+
+                }
+            }
+            String response = "Task Added";
+            exchange.sendResponseHeaders(200, response.length());
+            exchange.getResponseBody().write(response.getBytes());
+            exchange.close();
+        }
+
+    }
+
+    //list Task
+    static class ListTaskHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String username = new String(exchange.getRequestBody().readAllBytes());
+            StringBuilder response = new StringBuilder();
+            for (User user : userArray) {
+                if (user != null && user.getUsername().equals(username)) {
+                    for (Task task : user.getTaskArray()) {
+                        if (task != null) {
+                            response.append(task.getTaskDescription()).append("\n");
+                        }
+                    }
+                }
+            }
+
+            exchange.sendResponseHeaders(200, response.length());
+            exchange.getResponseBody().write(response.toString().getBytes());
+            exchange.close();
+        }
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //    HttpServer server= HttpServer.create(new InetSocketAddress(8080),0);
+//    // created server on the ported 80080
+//    server.createContext("/start", new HelloHandler());
+//    server.setExecutor(null);
+//    server.start();
+//    System.out.println("server is started on the htttp:localhost:8080/start");
+//
+//}
+//static class HelloHandler implements HttpHandler{
+//    @Override
+//    public void handle(HttpExchange exchange) throws IOException {
+//        String response="Hello from Java Backend ";
+//        exchange.sendResponseHeaders(200,response.length());
+//        OutputStream os=exchange.getResponseBody();
+//        os.write(response.getBytes());
+//        os.close();
+//    }
