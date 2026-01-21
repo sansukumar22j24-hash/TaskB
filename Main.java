@@ -1,138 +1,122 @@
-package Learn;
-
-import com.sun.net.httpserver.*;
-import java.io.*;
-import java.net.InetSocketAddress;
-import java.util.*;
+package Some.TODO;
+import java.util.Scanner;
 
 public class Main {
+    public static void main(String[] args) {
+        Scanner sc= new Scanner(System.in);
+        User[] users=new User[4];
+        Integer choice = 0;
+        User availableUser = null;
+        int userPositionArray = 0;
+        boolean findUser;
 
-    static User[] userArray = new User[5];
+        while(true) {
 
-
-    public static void main(String[] args) throws Exception {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-        //server.createContext("/");
-        server.createContext("/login", new LoginHandler());
-        server.createContext("/task/add", new addTaskHandler());
-        server.createContext("/task/list", new ListTaskHandler());
-        server.start();
-        System.out.println("Server is Started on the port http://localhost:8080");
-    }
-
-
-    //login
-    static class LoginHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange exchange) throws IOException {
-            String userName = new String(exchange.getRequestBody().readAllBytes());
-            User currentUser = null;
-
-            for (int i = 0; i < userArray.length; i++) {
-                if (userArray[i] != null) {
-                    if (userArray[i].getUsername().equals(userName)) {
-                        currentUser = userArray[i];
+            findUser=false;
+            System.out.println("Welcome to Your Task ");
+            System.out.println("Enter your name");
+            String username = sc.nextLine();
+            for (int i = 0; i < users.length; i++) {
+                if(users[i]==null){
+                    continue;
+                }
+                else{
+                    if(users[i].equals(username)){
+                        findUser=true;
+                        userPositionArray=i;
                         break;
                     }
                 }
+
             }
-            if (currentUser == null) {
-                currentUser = new User(userName);
-                for (int i = 0; i < userArray.length; i++) {
-                    if (userArray[i] == null) {
-                        userArray[i] = currentUser;
+            if(findUser==false){
+                availableUser=new User(username);
+                for (int i = 0; i < users.length; i++) {
+                    if (users[i]==null){
+                        users[i]=availableUser;
                         break;
                     }
                 }
+            }else{
+                availableUser=users[userPositionArray];
             }
-            String response = "Logged in as " + userName;
-            exchange.sendResponseHeaders(200, response.length());
-            exchange.getResponseBody().write(response.getBytes());
-            exchange.close();
-        }
-    }
 
-    //add task
-    static class addTaskHandler implements HttpHandler {
+            while (choice!=5) {
+                System.out.println("Available features");
+                System.out.println("1.Add the task");
+                System.out.println("2.Show the task");
+                System.out.println("3.Update the task");
+                System.out.println("4.Delete the task");
+                System.out.println("5.Exit");
+                System.out.println("Choose any Option ");
+                choice = new Integer(sc.nextLine());
 
-        public void handle(HttpExchange exchange) throws IOException {
-            String body = new String(exchange.getRequestBody().readAllBytes());
-            String[] data = body.split(",");
+                if (choice == 1) {
+                    System.out.println("Enter the description:");
+                    String description = sc.nextLine();
+                    Task task = new Task(description);
+                    for (int i = 0; i < users.length; i++) {
+                        if (availableUser.getAvailableTask()[i]==null){
+                            availableUser.getAvailableTask()[i]=task;
+                            break;
+                        }
+                    }
+                    System.out.print("Your Task is created Success fully \n");
 
-            String userName = data[0];
-            String description = data[1];
-            for (User user : userArray) {
-                if (user != null) {
-                    if (user.getUsername().equals(userName)) {
-                        for (int i = 0; i < user.getTaskArray().length; i++) {
-                            if (user.getTaskArray()[i] == null) {
-                                user.getTaskArray()[i] = new Task(description);
-                                break;
+                } else if (choice == 2) {
+                    System.out.println("The available Tasks you created ");
+                    for (int i = 0; i < users.length; i++) {
+                        if (availableUser.getAvailableTask()[i] != null) {
+                            System.out.print(i + 1 + ". ");
+                            System.out.println(availableUser.getAvailableTask()[i].getDescription() );
+
+                        }
+                    }
+                }
+                else if(choice==3)
+                {
+                        System.out.println("Enter the number to update the task");
+                        for (int i = 0; i < users.length; i++) {
+                            if (availableUser.getAvailableTask()[i]!=null){
+                                System.out.print(i+1+". ");
+                                System.out.println(availableUser.getAvailableTask()[i].getDescription());
+
                             }
                         }
-                    }
-
+                        System.out.print("Pick the choice: ");
+                        Integer wantToUpdateChoice=new Integer(sc.nextLine());
+                        System.out.print("Enter the New Description: ");
+                        String wantToUpdateDescription=sc.nextLine();
+                        availableUser.getAvailableTask()[wantToUpdateChoice-1].setDescription(wantToUpdateDescription);
                 }
-            }
-            String response = "Task Added";
-            exchange.sendResponseHeaders(200, response.length());
-            exchange.getResponseBody().write(response.getBytes());
-            exchange.close();
-        }
+                    else if(choice==4)
+                    {
+                        System.out.println("Enter the number to delete the task");
+                        for (int i = 0; i < users.length; i++) {
+                            if (availableUser.getAvailableTask()[i]!=null){
+                                System.out.print(i+1+". ");
+                                System.out.println(availableUser.getAvailableTask()[i].getDescription());
 
-    }
-
-    //list Task
-    static class ListTaskHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange exchange) throws IOException {
-            String username = new String(exchange.getRequestBody().readAllBytes());
-            StringBuilder response = new StringBuilder();
-            for (User user : userArray) {
-                if (user != null && user.getUsername().equals(username)) {
-                    for (Task task : user.getTaskArray()) {
-                        if (task != null) {
-                            response.append(task.getTaskDescription()).append("\n");
+                            }
                         }
+                        System.out.print("Pick the choice: ");
+                        Integer wantToDeleteChoice=new Integer(sc.nextInt());
+                        availableUser.getAvailableTask()[wantToDeleteChoice-1]=null;
                     }
+
+
+                 else if (choice == 5) {
+                    System.out.println("Exit here !");
+
+                 } else {
+                    System.out.println("Come Again! NextTime ");
                 }
             }
 
-            exchange.sendResponseHeaders(200, response.length());
-            exchange.getResponseBody().write(response.toString().getBytes());
-            exchange.close();
         }
+
     }
 
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    //    HttpServer server= HttpServer.create(new InetSocketAddress(8080),0);
-//    // created server on the ported 80080
-//    server.createContext("/start", new HelloHandler());
-//    server.setExecutor(null);
-//    server.start();
-//    System.out.println("server is started on the htttp:localhost:8080/start");
-//
-//}
-//static class HelloHandler implements HttpHandler{
-//    @Override
-//    public void handle(HttpExchange exchange) throws IOException {
-//        String response="Hello from Java Backend ";
-//        exchange.sendResponseHeaders(200,response.length());
-//        OutputStream os=exchange.getResponseBody();
-//        os.write(response.getBytes());
-//        os.close();
-//    }

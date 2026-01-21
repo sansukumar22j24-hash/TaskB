@@ -1,16 +1,18 @@
-package Learn;
+package Some.TODO;
+
 public class Task {
-    private String taskDescription;
+    private  String description;
 
-    public Task(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public  Task(){}
+    public Task(String description){
+        this.description=description;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

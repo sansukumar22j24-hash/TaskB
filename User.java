@@ -1,19 +1,27 @@
-package Learn;
+package Some.TODO;
 
 public class User {
-    private String username;
-    private Task[] taskArray = new Task[5];
 
-    public User(String username) {
-        this.username = username;
+    private String name;
+    private Task[] availableTask=new Task[10];
+
+    public  User(String name) {
+        this.name = name;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public Task[] getTaskArray() {
-        return taskArray;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Task[] getAvailableTask() {
+        return availableTask;
+    }
+
+    public void setAvailableTask(Task[] availableTask) {
+        this.availableTask = availableTask;
     }
 }
-
