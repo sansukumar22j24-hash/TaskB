@@ -1,122 +1,172 @@
-package Some.TODO;
+package TaskCli;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc= new Scanner(System.in);
-        User[] users=new User[4];
-        Integer choice = 0;
-        User availableUser = null;
-        int userPositionArray = 0;
-        boolean findUser;
+        Scanner sc = new Scanner(System.in);
+        User[] users = new User[4];
+        User currentUser = null;
+        String option="0";
 
-        while(true) {
+        while (true) {
+            System.out.println("====== Welcome To Task Manager =====");
+            System.out.print("Enter Your name: ");
+            String name = sc.nextLine();
 
-            findUser=false;
-            System.out.println("Welcome to Your Task ");
-            System.out.println("Enter your name");
-            String username = sc.nextLine();
-            for (int i = 0; i < users.length; i++) {
+
+            boolean isUserExist=false;
+            int pos=0;
+            for (int i = 0; i <users.length ; i++) {
                 if(users[i]==null){
                     continue;
                 }
-                else{
-                    if(users[i].equals(username)){
-                        findUser=true;
-                        userPositionArray=i;
-                        break;
-                    }
+                if (users[i].getName().equals(name)){
+                    isUserExist=true;
+                    pos=i;
+                    break;
                 }
-
             }
-            if(findUser==false){
-                availableUser=new User(username);
+            if(isUserExist == false) {
+                currentUser = new User(name);
                 for (int i = 0; i < users.length; i++) {
-                    if (users[i]==null){
-                        users[i]=availableUser;
+                    if(users[i]==null){
+                        users[i]=currentUser;
                         break;
                     }
+
                 }
-            }else{
-                availableUser=users[userPositionArray];
+            }
+            if(isUserExist == true){
+                currentUser=users[pos];
+                System.out.println("User is already Exist! ");
             }
 
-            while (choice!=5) {
-                System.out.println("Available features");
-                System.out.println("1.Add the task");
-                System.out.println("2.Show the task");
-                System.out.println("3.Update the task");
-                System.out.println("4.Delete the task");
-                System.out.println("5.Exit");
-                System.out.println("Choose any Option ");
-                choice = new Integer(sc.nextLine());
+            while (option !="5") {
+                System.out.println("Enter the Options");
+                System.out.println("1.(+) Add Task");
+                System.out.println("2.Show All Task");
+                System.out.println("3.Update Task");
+                System.out.println("4.Delete Task");
+                System.out.println("5.(X) Exit");
+                System.out.print("=> ");
+                option = sc.nextLine();
 
-                if (choice == 1) {
-                    System.out.println("Enter the description:");
-                    String description = sc.nextLine();
-                    Task task = new Task(description);
-                    for (int i = 0; i < users.length; i++) {
-                        if (availableUser.getAvailableTask()[i]==null){
-                            availableUser.getAvailableTask()[i]=task;
+                if (option.equals("1") || option.equals("+")) {
+                    System.out.println("Enter the Title:");
+                    String title=sc.nextLine();
+                    Task task = new Task(title);
+                    System.out.println("If you Want to Add Description : Yes || No ");
+                    String descriptionOption=sc.nextLine();
+                    if(descriptionOption.equals("Yes")) {
+                        System.out.println("Add the Description");
+                        String description = sc.nextLine();
+                        task.setDescription(description);
+                    }
+
+                    for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                        if (currentUser.getTaskArray()[i] == null) {
+                            currentUser.getTaskArray()[i] = task;// address task to user
+                            System.out.println(currentUser.getTaskArray()[i].getTitle());
+                            if(descriptionOption.equals("Yes")) {
+                                System.out.println(currentUser.getTaskArray()[i].getDescription());
+                            }
                             break;
                         }
                     }
-                    System.out.print("Your Task is created Success fully \n");
+                    System.out.println("Task is created ");
+                }
 
-                } else if (choice == 2) {
-                    System.out.println("The available Tasks you created ");
-                    for (int i = 0; i < users.length; i++) {
-                        if (availableUser.getAvailableTask()[i] != null) {
+
+                if(option.equals("2")){
+                    System.out.println("List of Available Tasks");
+                        for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                            if (currentUser.getTaskArray()[i] != null) {
+                                System.out.print(i + 1 + ". ");
+                                System.out.println(currentUser.getTaskArray()[i].getTitle());
+                            }
+                        }
+
+                }
+
+
+
+                if(option.equals("3")){
+                    System.out.println("Update the Task");
+                    for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                        if (currentUser.getTaskArray()[i] != null) {
                             System.out.print(i + 1 + ". ");
-                            System.out.println(availableUser.getAvailableTask()[i].getDescription() );
-
+                            System.out.println(currentUser.getTaskArray()[i].getTitle());
                         }
                     }
-                }
-                else if(choice==3)
-                {
-                        System.out.println("Enter the number to update the task");
-                        for (int i = 0; i < users.length; i++) {
-                            if (availableUser.getAvailableTask()[i]!=null){
-                                System.out.print(i+1+". ");
-                                System.out.println(availableUser.getAvailableTask()[i].getDescription());
+                    System.out.println("Enter the Option want to Update");
+                    String updateOption=sc.nextLine();
 
-                            }
-                        }
-                        System.out.print("Pick the choice: ");
-                        Integer wantToUpdateChoice=new Integer(sc.nextLine());
-                        System.out.print("Enter the New Description: ");
-                        String wantToUpdateDescription=sc.nextLine();
-                        availableUser.getAvailableTask()[wantToUpdateChoice-1].setDescription(wantToUpdateDescription);
-                }
-                    else if(choice==4)
-                    {
-                        System.out.println("Enter the number to delete the task");
-                        for (int i = 0; i < users.length; i++) {
-                            if (availableUser.getAvailableTask()[i]!=null){
-                                System.out.print(i+1+". ");
-                                System.out.println(availableUser.getAvailableTask()[i].getDescription());
+                    System.out.println("What You want to Update Title || Description ");
+                    String titleOrDescription= sc.nextLine();
+                    Integer numberUpdateOption=new Integer(updateOption);
 
-                            }
+                    if(titleOrDescription.equals("Title")) {
+                        System.out.print("Enter the Title: ");
+                        String updateTitle = sc.nextLine();
+                        currentUser.getTaskArray()[numberUpdateOption-1].setTitle(updateTitle);
+                        System.out.println("Title is Updated");
+                    }
+                    if(titleOrDescription.equals("Description")) {
+                        System.out.print("Enter the Description: ");
+                        String updateDescription = sc.nextLine();
+                        currentUser.getTaskArray()[numberUpdateOption-1].setDescription(updateDescription);
+                        System.out.println("Description is Updated");
+                    }
+                    System.out.println("=====================");
+
+
+
+                }
+
+
+
+                if(option.equals("4")){
+                    System.out.println("Delete the Task");
+                    for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                        if (currentUser.getTaskArray()[i]!= null){
+                            System.out.print(i + 1 + ". ");
+                            System.out.println(currentUser.getTaskArray()[i].getTitle());
                         }
-                        System.out.print("Pick the choice: ");
-                        Integer wantToDeleteChoice=new Integer(sc.nextInt());
-                        availableUser.getAvailableTask()[wantToDeleteChoice-1]=null;
+                    }
+                    System.out.println("Pick any one to delete");
+                    String deleteOption=sc.nextLine();
+                    Integer deleteNumOption=new Integer(deleteOption);
+                    currentUser.getTaskArray()[deleteNumOption-1]=null;
+                    Task[] temporaryArray= currentUser.getTaskArray();
+
+                    for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                        if (currentUser.getTaskArray()[i] ==null){
+                            currentUser.getTaskArray()[i]=temporaryArray[deleteNumOption-1];
+                        }
+                    }
+                    int n=0;
+                    for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                        if (currentUser.getTaskArray()[i]!= null){
+                            System.out.print(n + 1 + ". ");
+                            System.out.println(currentUser.getTaskArray()[i].getTitle());
+                        }
+                        n++;
                     }
 
+                System.out.println();
 
-                 else if (choice == 5) {
-                    System.out.println("Exit here !");
 
-                 } else {
-                    System.out.println("Come Again! NextTime ");
                 }
+
+                if (option.equals("5") || option.equals("X")) {
+                    System.out.println("You Exit ");
+                   break;
+                }
+
             }
 
+
         }
-
     }
-
-
 }
-

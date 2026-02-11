@@ -1,27 +1,23 @@
-package Some.TODO;
+package TaskCli;
 
 public class User {
-
     private String name;
-    private Task[] availableTask=new Task[10];
-
-    public  User(String name) {
-        this.name = name;
+    private Task[] taskArray=new Task[10];
+    public User(String name){
+        this.name=name;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public Task[] getAvailableTask() {
-        return availableTask;
+    public Task[] getTaskArray() {
+        return taskArray;
     }
 
-    public void setAvailableTask(Task[] availableTask) {
-        this.availableTask = availableTask;
+    public void setTaskArray(Task[] taskArray) {
+        this.taskArray = taskArray;
     }
 }
