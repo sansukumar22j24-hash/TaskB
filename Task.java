@@ -5,12 +5,14 @@ import java.io.StringReader;
 public class Task {
     private String title;
     private String description;
+    private String status;
 
     public Task(){
 
     }
     public Task(String title){
         this.title = title;
+        this.status="Todo";
     }
 
     public String getDescription() {
@@ -27,5 +29,13 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
