@@ -313,34 +313,286 @@ public class Main {
 
                     if (option.equals("3")) {
                         System.out.println("Update the Task");
-                        for (int i = 0; i < currentUser.getTaskArray().length; i++) {
-                            if (currentUser.getTaskArray()[i] != null) {
-                                System.out.print(i + 1 + ". ");
-                                System.out.println(currentUser.getTaskArray()[i].getTitle());
+                        boolean update = false;
+                        String updateOption = null;
+                        while (!update) {
+                            if(currentUser.getTaskArray()!=null) {
+
+
+                                for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                                    if (currentUser.getTaskArray()[i] != null) {
+                                        System.out.print(i + 1 + ". ");
+                                        System.out.println(currentUser.getTaskArray()[i].getTitle());
+                                    }
+                                }
+                            }
+                            else {
+                                System.out.println("Not Task is Avalilabele to Update ");
+
+                            try {
+                                System.out.println("Enter the Option want to Update");
+                                System.out.println("1. Update Task Title ");
+                                System.out.println("2. Update Task Description ");
+                                System.out.println("3. Update Task Status ");
+                                try {
+                                updateOption = sc.nextLine();
+                                if (updateOption.isEmpty()) {
+                                    System.out.println("Option Should Not be Empty ");
+                                    continue;
+                                }
+                                if (updateOption.equals("exit")) {
+                                    throw new Exception();
+                                }
+
+                                    Integer options=new Integer(updateOption);
+                                    if(options<1 || options>3){
+                                        throw new Exception();
+                                    }
+                                }
+                                catch (Exception e) {
+                                    System.out.println("=== Enter the Valid Option (1 to 3) ===");
+                                    continue;
+                                }
+
+                                try {
+
+
+                                    if (updateOption.equals("1")) {
+                                        String updateTitle = null;
+                                        String titleOption = null;
+                                        System.out.println("Available Title ");
+                                        if (currentUser.getTaskArray() != null) {
+                                            for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                                                if (currentUser.getTaskArray()[i] != null) {
+                                                    System.out.print(i + 1 + ".");
+                                                    System.out.println(currentUser.getTaskArray()[i].getTitle());
+                                                }
+                                            }
+
+                                            boolean titleFg = false;
+                                            while (!titleFg) {
+                                                System.out.println("Select the Any title to Update  ");
+                                                titleOption = sc.nextLine();
+                                                try {
+                                                    if (titleOption.isEmpty()) {
+                                                        System.out.println("Option Should not be Empty ");
+                                                        continue;
+                                                    }
+                                                    if (titleOption.equals("exit")) {
+                                                        throw new Exception();
+                                                    }
+
+                                                } catch (Exception e) {
+                                                    if (titleOption.equals("exit")) {
+                                                        System.out.println("Exit");
+                                                        titleFg = true;
+                                                        update = true;
+
+                                                    }
+                                                }
+
+                                                System.out.print("Enter the New Title: ");
+                                                try {
+                                                    updateTitle = sc.nextLine();
+
+                                                    if (updateTitle.isEmpty()) {
+                                                        System.out.println("Title Should not be Empty ");
+                                                        continue;
+                                                    }
+                                                    if (updateTitle.equals("exit")) {
+                                                        throw new Exception();
+                                                    }
+                                                } catch (Exception e) {
+                                                    if (updateTitle.equals("exit")) {
+                                                        System.out.println("Exit");
+                                                        titleFg = true;
+                                                        update = true;
+
+                                                    }
+                                                }
+
+                                                Integer titleNumber = new Integer(titleOption);
+                                                currentUser.getTaskArray()[titleNumber - 1].setTitle(updateTitle);
+                                                System.out.println("Title is Updated");
+                                                update = true;
+                                            }
+                                        }
+                                        else {
+                                            System.out.println("Title is empty here ");
+                                        }
+
+                                    }
+
+                                        else if (updateOption.equals("2")) {
+                                            System.out.println("Available Title ");
+                                            if (currentUser.getTaskArray() != null) {
+                                                for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                                                    if (currentUser.getTaskArray()[i] != null) {
+                                                        System.out.print(i + 1 + ".");
+                                                        System.out.println(currentUser.getTaskArray()[i].getDescription());
+                                                    }
+                                                }
+
+
+                                                String updateTitle = null;
+                                                String titleOption = null;
+                                                System.out.println("Available Title ");
+                                                if (currentUser.getTaskArray() != null) {
+                                                    for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                                                        if (currentUser.getTaskArray()[i] != null) {
+                                                            System.out.print(i + 1 + ".");
+                                                            System.out.println(currentUser.getTaskArray()[i].getTitle());
+                                                        }
+                                                    }
+
+                                                    boolean titleFg = false;
+                                                    while (!titleFg) {
+                                                        System.out.println("Select the Any title to Update  ");
+                                                        titleOption = sc.nextLine();
+                                                        try {
+                                                            if (titleOption.isEmpty()) {
+                                                                System.out.println("Option Should not be Empty ");
+                                                                continue;
+                                                            }
+                                                            if (titleOption.equals("exit")) {
+                                                                throw new Exception();
+                                                            }
+
+                                                        } catch (Exception e) {
+                                                            if (titleOption.equals("exit")) {
+                                                                System.out.println("Exit");
+                                                                titleFg = true;
+                                                                update = true;
+
+                                                            }
+                                                        }
+
+                                                        System.out.print("Enter the New Title: ");
+                                                        try {
+                                                            updateTitle = sc.nextLine();
+
+                                                            if (updateTitle.isEmpty()) {
+                                                                System.out.println("Title Should not be Empty ");
+                                                                continue;
+                                                            }
+                                                            if (updateTitle.equals("exit")) {
+                                                                throw new Exception();
+                                                            }
+                                                        } catch (Exception e) {
+                                                            if (updateTitle.equals("exit")) {
+                                                                System.out.println("Exit");
+                                                                titleFg = true;
+                                                                update = true;
+
+                                                            }
+                                                        }
+
+                                                        Integer titleNumber = new Integer(titleOption);
+                                                        currentUser.getTaskArray()[titleNumber - 1].setTitle(updateTitle);
+                                                        System.out.println("Title is Updated");
+                                                        update = true;
+                                                    }
+                                            } else {
+                                                System.out.println("Description is empty here ");
+                                            }
+                                            System.out.print("Enter the Description: ");
+                                            String updateDescription = sc.nextLine();
+                                            currentUser.getTaskArray()[numberUpdateOption - 1].setDescription(updateDescription);
+                                            System.out.println("Description is Updated");
+
+                                        } else if (updateOption.equals("3")) {
+                                            System.out.println("Available Title ");
+                                            if (currentUser.getTaskArray() != null) {
+                                                for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                                                    if (currentUser.getTaskArray()[i] != null) {
+                                                        System.out.print(i + 1 + ".");
+                                                        System.out.println(currentUser.getTaskArray()[i].getStatus());
+                                                    }
+                                                }
+                                                String updateTitle = null;
+                                                String titleOption = null;
+                                                System.out.println("Available Title ");
+                                                if (currentUser.getTaskArray() != null) {
+                                                    for (int i = 0; i < currentUser.getTaskArray().length; i++) {
+                                                        if (currentUser.getTaskArray()[i] != null) {
+                                                            System.out.print(i + 1 + ".");
+                                                            System.out.println(currentUser.getTaskArray()[i].getTitle());
+                                                        }
+                                                    }
+
+                                                    boolean titleFg = false;
+                                                    while (!titleFg) {
+                                                        System.out.println("Select the Any title to Update  ");
+                                                        titleOption = sc.nextLine();
+                                                        try {
+                                                            if (titleOption.isEmpty()) {
+                                                                System.out.println("Option Should not be Empty ");
+                                                                continue;
+                                                            }
+                                                            if (titleOption.equals("exit")) {
+                                                                throw new Exception();
+                                                            }
+
+                                                        } catch (Exception e) {
+                                                            if (titleOption.equals("exit")) {
+                                                                System.out.println("Exit");
+                                                                titleFg = true;
+                                                                update = true;
+
+                                                            }
+                                                        }
+
+                                                        System.out.print("Enter the New Title: ");
+                                                        try {
+                                                            updateTitle = sc.nextLine();
+
+                                                            if (updateTitle.isEmpty()) {
+                                                                System.out.println("Title Should not be Empty ");
+                                                                continue;
+                                                            }
+                                                            if (updateTitle.equals("exit")) {
+                                                                throw new Exception();
+                                                            }
+                                                        } catch (Exception e) {
+                                                            if (updateTitle.equals("exit")) {
+                                                                System.out.println("Exit");
+                                                                titleFg = true;
+                                                                update = true;
+
+                                                            }
+                                                        }
+
+                                                        Integer titleNumber = new Integer(titleOption);
+                                                        currentUser.getTaskArray()[titleNumber - 1].setTitle(updateTitle);
+                                                        System.out.println("Title is Updated");
+                                                        update = true;
+                                                    }
+                                            } else {
+                                                System.out.println("Status is empty here ");
+                                            }
+                                        }
+
+                                    }
+                                }
+                                catch(Exception e){
+                                    if (updateOption.equals("exit")) {
+                                        System.out.println("Exit");
+                                        update = true;
+                                    }
+                                }
+
+
+                            }
+                            catch (Exception e) {
+                                if (updateOption.equals("exit")) {
+                                    System.out.println("Exit");
+                                    update = true;
+
+                                }
+
                             }
                         }
-                        System.out.println("Enter the Option want to Update");
-                        String updateOption = sc.nextLine();
-
-                        System.out.println("What You want to Update Title || Description ");
-                        String titleOrDescription = sc.nextLine();
-                        Integer numberUpdateOption = new Integer(updateOption);
-
-                        if (titleOrDescription.equals("Title")) {
-                            System.out.print("Enter the Title: ");
-                            String updateTitle = sc.nextLine();
-                            currentUser.getTaskArray()[numberUpdateOption - 1].setTitle(updateTitle);
-                            System.out.println("Title is Updated");
-                        }
-                        if (titleOrDescription.equals("Description")) {
-                            System.out.print("Enter the Description: ");
-                            String updateDescription = sc.nextLine();
-                            currentUser.getTaskArray()[numberUpdateOption - 1].setDescription(updateDescription);
-                            System.out.println("Description is Updated");
-                        }
                         System.out.println("=====================");
-
-
                     }
 
 
