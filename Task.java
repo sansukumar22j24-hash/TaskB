@@ -2,7 +2,7 @@ package TaskCli;
 
 import java.io.StringReader;
 
-public class Task {
+public class Task implements TaskInterface{
     private String title;
     private String description;
     private String status;

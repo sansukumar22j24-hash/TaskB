@@ -1,8 +1,8 @@
 package TaskCli;
 
-public class User {
+public class User implements UserInterface {
     private String name;
-    private Task[] taskArray=new Task[10];
+    private TaskInterface[] taskArray=new Task[10];
     public User(String name){
         this.name=name;
     }
@@ -13,11 +13,11 @@ public class User {
         this.name = name;
     }
 
-    public Task[] getTaskArray() {
+    public TaskInterface[] getTaskArray() {
         return taskArray;
     }
 
-    public void setTaskArray(Task[] taskArray) {
+    public void setTaskArray(TaskInterface[] taskArray) {
         this.taskArray = taskArray;
     }
 }
