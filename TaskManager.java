@@ -75,7 +75,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
                 } catch (Exception e)
                 {
                     exit=true;
-                    System.out.println("Exit");
+                    System.out.println("=== Exit ===");
                 }
             }
             else {
@@ -128,7 +128,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
                             }
                             if (showTasksOption.equals("exit")) {
                                 showTasks = true;
-                                System.out.println("Exit");
+                                System.out.println("=== Exit ===");
                                 break;
                             }
                         }
@@ -167,7 +167,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
 
             } catch (Exception e) {
                 if (showTasksOption.equals("exit")) {
-                    System.out.println("Exit");
+                    System.out.println("=== Exit ===");
                     showTasks = true;
 
                 }
@@ -210,7 +210,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
 
                         } catch (Exception e) {
                             if (updateOption.equals("exit")) {
-                                System.out.println("Exit");
+                                System.out.println("=== Exit ===");
                                 update = true;
                             }
                             System.out.println("=== Enter the Valid Option (1 to 3) ===");
@@ -240,7 +240,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
 
                                         } catch (Exception e) {
                                             if (titleOption.equals("exit")) {
-                                                System.out.println("Exit");
+                                                System.out.println("=== Exit ===");
                                                 titleFg = true;
                                                 update = true;
                                                 continue;
@@ -265,8 +265,8 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
                                                 }
                                             } catch (Exception e) {
                                                 if (updateTitle.equals("exit")) {
-                                                    System.out.println("Exit");
-                                                    updateTitleFg = true;
+                                                    System.out.println("=== Exit ===");
+
                                                     titleFg = true;
                                                     update = true;
                                                 }
@@ -306,7 +306,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
 
                                         } catch (Exception e) {
                                             if (descriptionOption.equals("exit")) {
-                                                System.out.println("Exit");
+                                                System.out.println("=== Exit ===");
                                                 descriptionFg = true;
                                                 update = true;
                                                 continue;
@@ -332,7 +332,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
                                                 }
                                             } catch (Exception e) {
                                                 if (updateDescription.equals("exit")) {
-                                                    System.out.println("Exit");
+                                                    System.out.println("=== Exit ===");
                                                     descriptionFg = true;
                                                     update = true;
 
@@ -379,7 +379,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
 
                                         } catch (Exception e) {
                                             if (statusOption.equals("exit")) {
-                                                System.out.println("Exit");
+                                                System.out.println("=== Exit ===");
                                                 statusFg = true;
                                                 update = true;
 
@@ -413,7 +413,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
                                                 }
                                             } catch (Exception e) {
                                                 if (updateStatusChoice.equals("exit")) {
-                                                    System.out.println("Exit");
+                                                    System.out.println("=== Exit ===");
                                                     statusFg = true;
                                                     update = true;
 
@@ -446,7 +446,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
                             }
                         } catch (Exception e) {
                             if (updateOption.equals("exit")) {
-                                System.out.println("Exit");
+                                System.out.println("=== Exit ===");
                                 update = true;
                             }
                         }
@@ -455,7 +455,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
 
                 } catch (Exception e) {
                     if (updateOption.equals("exit")) {
-                        System.out.println("Exit");
+                        System.out.println("=== Exit ===");
                         update = true;
                     }
                 }
@@ -503,7 +503,7 @@ public class TaskManager extends TaskManagerUtil implements TaskManagerInterface
                     currentUser.setTaskArray(temporaryTask);
                 } catch (Exception e) {
                     if (deleteOption.equals("exit")) {
-                        System.out.println("Exit");
+                        System.out.println("=== Exit ===");
                         delete = true;
                     } else {
                         System.out.println("Invalid");

@@ -19,12 +19,11 @@ public class Main {
                 System.out.println("4.Delete Task");
                 System.out.println("5.(X) Exit");
                 System.out.print("=> ");
-
                 option = sc.nextLine();
                 try {
                     if (option.isEmpty()) {
                         System.out.println("Option should not be Empty ");
-                        System.out.println("Pick any One Option ");
+                        System.out.print("Pick any One Option");
                         System.out.println(" ");
                         continue;
                     }
@@ -42,8 +41,6 @@ public class Main {
                         System.out.println("=== Enter the Valid Option (1 to 5) ===");
                         continue;
                     }
-
-
 
                     TaskManagerInterface taskManager=new TaskManager();
                     if (option.equals("1") || option.equals("+"))
